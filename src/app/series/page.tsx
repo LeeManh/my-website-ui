@@ -2,7 +2,7 @@ import { MainLayout } from "@/components/layouts/MainLayout";
 import { Card } from "@/components/shared/card/Card";
 import { Pagination } from "antd";
 
-export default function Home() {
+export default function Series() {
   return (
     <MainLayout>
       <div>

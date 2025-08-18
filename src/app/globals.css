@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Exclude .mdx-editor-isolated from Tailwind preflight */
+@theme {
+  --exclude-preflight: .mdx-editor-isolated;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -8,8 +13,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-roboto: var(--font-roboto);
+  --font-size-default: 14px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +27,191 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-roboto), sans-serif;
+  font-size: var(--font-size-default);
+  font-weight: 400;
+}
+
+@layer components {
+  .tiptap {
+    @apply focus:outline-none;
+
+    /* Override Tailwind CSS reset for lists */
+    ul,
+    ol {
+      list-style: revert;
+      margin: revert;
+      padding: revert;
+    }
+
+    :first-child {
+      margin-top: 0;
+    }
+
+    /* List styles */
+    ul,
+    ol {
+      padding: 0 1rem;
+      margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+      li {
+        margin: 0.25rem 0;
+
+        p {
+          margin-top: 0.25em;
+          margin-bottom: 0.25em;
+        }
+      }
+    }
+
+    /* Ensure bullet points are visible */
+    ul {
+      list-style-type: disc;
+
+      li {
+        display: list-item;
+      }
+    }
+
+    /* Ensure ordered list numbers are visible */
+    ol {
+      list-style-type: decimal;
+
+      li {
+        display: list-item;
+      }
+    }
+
+    /* Heading styles */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: 1.1;
+      margin-top: 2.5rem;
+      text-wrap: pretty;
+    }
+
+    h1,
+    h2 {
+      margin-top: 3.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+    }
+
+    h4,
+    h5,
+    h6 {
+      font-size: 1rem;
+    }
+
+    /* Code and preformatted text styles */
+    code {
+      background-color: #f0f0f0;
+      border-radius: 0.4rem;
+      color: #000;
+      font-size: 0.85rem;
+      padding: 0.25em 0.3em;
+    }
+
+    pre {
+      background: #000;
+      border-radius: 0.5rem;
+      color: #fff;
+      font-family: "JetBrainsMono", monospace;
+      margin: 1.5rem 0;
+      padding: 0.75rem 1rem;
+
+      code {
+        background: none;
+        color: inherit;
+        font-size: 0.8rem;
+        padding: 0;
+      }
+    }
+
+    blockquote {
+      border-left: 3px solid #e0e0e0;
+      margin: 1.5rem 0;
+      padding-left: 1rem;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 1rem 0;
+    }
+
+    /* TipTap specific list styles */
+    .ProseMirror {
+      ul[data-type="bulletList"],
+      ol[data-type="orderedList"] {
+        padding: 0 1rem;
+        margin: 1rem 0;
+      }
+
+      ul[data-type="bulletList"] {
+        list-style-type: disc;
+      }
+
+      ol[data-type="orderedList"] {
+        list-style-type: decimal;
+      }
+
+      li[data-type="listItem"] {
+        display: list-item;
+        margin: 0.25rem 0;
+      }
+    }
+
+    /* Force list styles to be visible */
+    .ProseMirror ul,
+    .ProseMirror ol {
+      padding-left: 1.5rem !important;
+    }
+
+    .ProseMirror ul li,
+    .ProseMirror ol li {
+      display: list-item !important;
+      margin: 0.25rem 0 !important;
+    }
+
+    .ProseMirror ul li {
+      list-style-type: disc !important;
+    }
+
+    .ProseMirror ol li {
+      list-style-type: decimal !important;
+    }
+
+    /* Text Alignment Styles */
+    .ProseMirror [style*="text-align: left"] {
+      text-align: left !important;
+    }
+
+    .ProseMirror [style*="text-align: center"] {
+      text-align: center !important;
+    }
+
+    .ProseMirror [style*="text-align: right"] {
+      text-align: right !important;
+    }
+
+    .ProseMirror [style*="text-align: justify"] {
+      text-align: justify !important;
+    }
+  }
 }
