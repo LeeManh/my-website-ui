@@ -15,9 +15,11 @@ import {
 import Link from "next/link";
 import { ROUTE_PATH } from "@/constants/route-path.constant";
 import { post } from "@/data/dummy.data";
-import { Editor } from "@/components/shared/editor/Editor";
+
 import { useTOC } from "@/hooks/useTOC";
 import { TOC } from "@/components/shared/toc/TOC";
+import { CommentForm } from "@/components/shared/comment/CommentForm";
+import { CommentSection } from "@/components/shared/comment/CommentSection";
 
 const { Text } = Typography;
 
@@ -106,7 +108,10 @@ const PostDetails = () => {
 
           <Divider className="my-8" />
 
-          <Editor />
+          <div className="flex flex-col gap-6">
+            <CommentForm />
+            <CommentSection />
+          </div>
         </section>
 
         <aside className="w-64 sticky top-20 h-fit">

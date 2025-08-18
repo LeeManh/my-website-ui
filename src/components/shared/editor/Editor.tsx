@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { markdown } from "@/data/dummy.data";
 import { TextStyleKit } from "@tiptap/extension-text-style";
 import type { Editor as TiptapEditor } from "@tiptap/react";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
@@ -37,6 +36,7 @@ import {
   AlignJustify,
 } from "lucide-react";
 import Image from "next/image";
+import clsx from "clsx";
 
 const extensions = [
   TextStyleKit,
@@ -210,7 +210,12 @@ function ImageInsertModal({ visible, onCancel, onInsert }: ImageInsertModalProps
   );
 }
 
-function MenuBar({ editor }: { editor: TiptapEditor }) {
+interface MenuBarProps {
+  editor: TiptapEditor;
+  allowInsertImage: boolean;
+}
+
+function MenuBar({ editor, allowInsertImage }: MenuBarProps) {
   const [imageModalVisible, setImageModalVisible] = useState(false);
 
   // Read the current editor's state, and re-render the component when it changes
@@ -240,7 +245,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
         isBlockquote: ctx.editor.isActive("blockquote") ?? false,
         canUndo: ctx.editor.can().chain().undo().run() ?? false,
         canRedo: ctx.editor.can().chain().redo().run() ?? false,
-        canInsertImage: true, // Image can always be inserted
+        canInsertImage: allowInsertImage,
         currentTextAlign: ctx.editor.getAttributes("paragraph").textAlign || "left",
         isAlignLeft: (ctx.editor.getAttributes("paragraph").textAlign || "left") === "left",
         isAlignCenter: ctx.editor.getAttributes("paragraph").textAlign === "center",
@@ -356,6 +361,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={!editorState.canUndo}
                 icon={<Undo className="w-4 h-4" />}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
 
@@ -364,6 +370,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().redo().run()}
                 disabled={!editorState.canRedo}
                 icon={<Redo className="w-4 h-4" />}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
           </div>
@@ -390,6 +397,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 disabled={!editorState.canBold}
                 icon={<Bold className="w-4 h-4" />}
                 type={editorState.isBold ? "primary" : "default"}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
             <Tooltip title="Italic">
@@ -398,6 +406,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 disabled={!editorState.canItalic}
                 icon={<Italic className="w-4 h-4" />}
                 type={editorState.isItalic ? "primary" : "default"}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
             <Tooltip title="Strikethrough">
@@ -406,6 +415,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 disabled={!editorState.canStrike}
                 icon={<Strikethrough className="w-4 h-4" />}
                 type={editorState.isStrike ? "primary" : "default"}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
             <Tooltip title="Inline Code">
@@ -414,6 +424,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 disabled={!editorState.canCode}
                 icon={<CodeXml className="w-4 h-4" />}
                 type={editorState.isCode ? "primary" : "default"}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
           </div>
@@ -427,6 +438,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 type={editorState.isBulletList ? "primary" : "default"}
                 icon={<List className="w-4 h-4" />}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
             <Tooltip title="Numbered List">
@@ -434,6 +446,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
                 type={editorState.isOrderedList ? "primary" : "default"}
                 icon={<ListOrdered className="w-4 h-4" />}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
             <Tooltip title="Quote Block">
@@ -441,6 +454,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
                 type={editorState.isBlockquote ? "primary" : "default"}
                 icon={<Quote className="w-[13px] h-[13px]" />}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
 
@@ -449,6 +463,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                 type={editorState.isCodeBlock ? "primary" : "default"}
                 icon={<Code className="w-4 h-4" />}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
           </div>
@@ -462,6 +477,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().setTextAlign("left").run()}
                 icon={<AlignLeft className="w-4 h-4" />}
                 type={editorState.isAlignLeft ? "primary" : "default"}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
             <Tooltip title="Align Center">
@@ -469,6 +485,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().setTextAlign("center").run()}
                 icon={<AlignCenter className="w-4 h-4" />}
                 type={editorState.isAlignCenter ? "primary" : "default"}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
             <Tooltip title="Align Right">
@@ -476,6 +493,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().setTextAlign("right").run()}
                 icon={<AlignRight className="w-4 h-4" />}
                 type={editorState.isAlignRight ? "primary" : "default"}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
             <Tooltip title="Justify">
@@ -483,6 +501,7 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
                 onClick={() => editor.chain().focus().setTextAlign("justify").run()}
                 icon={<AlignJustify className="w-4 h-4" />}
                 type={editorState.isAlignJustify ? "primary" : "default"}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
           </div>
@@ -491,16 +510,20 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
 
           {/* Insert Elements */}
           <div className="flex gap-1">
-            <Tooltip title="Insert Image">
-              <Button
-                onClick={() => setImageModalVisible(true)}
-                icon={<ImageIcon className="w-4 h-4" />}
-              />
-            </Tooltip>
+            {allowInsertImage && (
+              <Tooltip title="Insert Image">
+                <Button
+                  onClick={() => setImageModalVisible(true)}
+                  icon={<ImageIcon className="w-4 h-4" />}
+                  className="!w-[30px] !h-[30px]"
+                />
+              </Tooltip>
+            )}
             <Tooltip title="Horizontal Rule">
               <Button
                 onClick={() => editor.chain().focus().setHorizontalRule().run()}
                 icon={<Minus className="w-4 h-4" />}
+                className="!w-[30px] !h-[30px]"
               />
             </Tooltip>
           </div>
@@ -510,19 +533,34 @@ function MenuBar({ editor }: { editor: TiptapEditor }) {
   );
 }
 
-export function Editor() {
+interface EditorProps {
+  className?: string;
+  minHeight?: string;
+  allowInsertImage?: boolean;
+}
+
+export function Editor({ className, minHeight = "140px", allowInsertImage = false }: EditorProps) {
   const editor = useEditor({
     extensions,
-    content: markdown,
+    content: "",
     immediatelyRender: false,
   });
 
   if (!editor) return null;
 
   return (
-    <div className="border border-gray-200 focus:border-gray-400 rounded-lg overflow-hidden bg-white">
-      <MenuBar editor={editor} />
-      <EditorContent editor={editor} className="tiptap p-4 min-h-[300px] focus:outline-none" />
+    <div
+      className={clsx(
+        "border border-gray-200 focus:border-gray-400 rounded-lg overflow-hidden bg-white w-full",
+        className
+      )}
+    >
+      <MenuBar editor={editor} allowInsertImage={allowInsertImage} />
+      <EditorContent
+        editor={editor}
+        className="tiptap p-4 focus:outline-none"
+        style={{ minHeight }}
+      />
     </div>
   );
 }
