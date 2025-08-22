@@ -1,3 +1,4 @@
+import { LoginResponse } from "@/types/auth.type";
 import { axiosApi } from "./axios.api";
 
 interface LoginBody {
@@ -5,4 +6,4 @@ interface LoginBody {
   password: string;
 }
 
-export const login = (body: LoginBody) => axiosApi.post("/auth/login", body);
+export const login = (body: LoginBody) => axiosApi.post<LoginResponse>("auth/login", body);

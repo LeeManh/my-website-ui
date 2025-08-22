@@ -6,6 +6,7 @@ import { ROUTE_PATH } from "@/constants/route-path.constant";
 import { Avatar, Button, Input, Select } from "antd";
 import Image from "next/image";
 import { ICONS } from "@/constants/assets.constant";
+import { useAuth } from "@/contexts/AuthContext";
 
 const { Search } = Input;
 
@@ -21,7 +22,7 @@ const languages = [
 ];
 
 export const MainHeader = () => {
-  const isAuth = false;
+  const { isAuthenticated } = useAuth();
 
   return (
     <header className="border-b border-gray-200 sticky top-0 left-0 right-0 z-50 bg-white h-16">
@@ -43,7 +44,7 @@ export const MainHeader = () => {
             icon={<Image src={ICONS.BELL} alt="bell" width={18} height={18} />}
           />
 
-          {isAuth ? (
+          {isAuthenticated ? (
             <Avatar
               size="default"
               alt=""

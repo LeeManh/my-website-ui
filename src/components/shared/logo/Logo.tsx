@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export const Logo = () => {
   return (
-    <Link href={ROUTE_PATH.HOME}>
+    <Link href={ROUTE_PATH.HOME} className="inline-block">
       <Image alt="logo" src={ICONS.LOGO} width={36} height={36} />
     </Link>
   );
