@@ -1,12 +1,19 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, Dropdown, MenuProps } from "antd";
-import { LogOut, Settings, User } from "lucide-react";
+import { Bell, Bookmark, LayoutDashboard, LogOut, Plus, Settings, User } from "lucide-react";
 import { useMemo } from "react";
+import Link from "next/link";
+import { ROUTE_PATH } from "@/constants/route-path.constant";
 
 enum ProfileMenu {
   PROFILE = "profile",
   SETTINGS = "settings",
+  NOTIFICATION = "notification",
+  BOOKMARK = "bookmark",
   LOGOUT = "logout",
+  DASHBOARD = "dashboard",
+  CREATE_POST = "create-post",
+  EDIT_POST = "edit-post",
 }
 
 export const ProfileAvatar = () => {
@@ -23,6 +30,29 @@ export const ProfileAvatar = () => {
         key: ProfileMenu.SETTINGS,
         label: "Settings",
         icon: <Settings className="w-4 h-4" />,
+      },
+      {
+        key: ProfileMenu.NOTIFICATION,
+        label: "Notification",
+        icon: <Bell className="w-4 h-4" />,
+      },
+      {
+        key: ProfileMenu.BOOKMARK,
+        label: "Bookmark",
+        icon: <Bookmark className="w-4 h-4" />,
+      },
+      {
+        type: "divider",
+      },
+      {
+        key: ProfileMenu.DASHBOARD,
+        label: <Link href={ROUTE_PATH.ADMIN.DASHBOARD}>Dashboard</Link>,
+        icon: <LayoutDashboard className="w-4 h-4" />,
+      },
+      {
+        key: ProfileMenu.CREATE_POST,
+        label: "Create Post",
+        icon: <Plus className="w-4 h-4" />,
       },
       {
         type: "divider",
@@ -42,7 +72,12 @@ export const ProfileAvatar = () => {
   };
 
   return (
-    <Dropdown menu={{ items, onClick }} trigger={["click"]} overlayClassName="w-50">
+    <Dropdown
+      menu={{ items, onClick }}
+      trigger={["click"]}
+      overlayClassName="w-50"
+      arrow={{ pointAtCenter: true }}
+    >
       <Avatar
         size="default"
         alt=""

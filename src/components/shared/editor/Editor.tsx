@@ -537,14 +537,33 @@ interface EditorProps {
   className?: string;
   minHeight?: string;
   allowInsertImage?: boolean;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
-export function Editor({ className, minHeight = "140px", allowInsertImage = false }: EditorProps) {
+export function Editor({
+  className,
+  minHeight = "140px",
+  allowInsertImage = false,
+  value,
+  onChange,
+}: EditorProps) {
   const editor = useEditor({
     extensions,
-    content: "",
+    content: value || "",
     immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      const html = editor.getHTML();
+      onChange?.(html);
+    },
   });
+
+  // Update editor content when value prop changes
+  React.useEffect(() => {
+    if (editor && value !== undefined && editor.getHTML() !== value) {
+      editor.commands.setContent(value);
+    }
+  }, [editor, value]);
 
   if (!editor) return null;
 

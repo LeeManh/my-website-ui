@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "my-blog-leem.s3.ap-southeast-1.amazonaws.com",
+      },
     ],
   },
 };
