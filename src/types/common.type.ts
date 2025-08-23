@@ -12,5 +12,15 @@ export interface MetaData {
 export interface SuccessResponse<T> {
   statusCode: HTTP_STATUS;
   data: T;
-  meta?: MetaData;
+}
+
+export interface SuccessPaginationResponse<T> {
+  statusCode: HTTP_STATUS;
+  data: T;
+  meta: MetaData;
+}
+
+export interface PaginationParams {
+  page: number;
+  limit: number;
 }
