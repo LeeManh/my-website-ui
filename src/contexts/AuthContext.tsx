@@ -1,9 +1,11 @@
+"use client";
+
 import { login } from "@/apis/auth.api";
 import { ROUTE_PATH } from "@/constants/route-path.constant";
 import { LoginBody, LoginResponse } from "@/types/auth.type";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 interface AuthContextType {
   accessToken: string;
@@ -22,7 +24,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
-
   const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
 
   const handleLoginSuccess = useCallback(
@@ -59,6 +60,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setRefreshToken("");
     router.push(ROUTE_PATH.LOGIN);
   }, [router]);
+
+  // persist access token and refresh token in local storage
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+    setAccessToken(accessToken || "");
+    setRefreshToken(refreshToken || "");
+  }, []);
 
   const value = useMemo(
     () => ({

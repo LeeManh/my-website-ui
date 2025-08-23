@@ -6,7 +6,7 @@ export default function Series() {
   return (
     <MainLayout>
       <div>
-        <div className="flex-1 grid grid-cols-4 gap-4">
+        <div className="flex-1 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
           {Array.from({ length: 12 }).map((_, index) => (
             <Card key={index} />
           ))}

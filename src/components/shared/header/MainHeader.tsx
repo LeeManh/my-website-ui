@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { Logo } from "@/components/shared/logo/Logo";
 import { ROUTE_PATH } from "@/constants/route-path.constant";
-import { Avatar, Button, Input, Select } from "antd";
+import { Button, Input, Select } from "antd";
 import Image from "next/image";
 import { ICONS } from "@/constants/assets.constant";
 import { useAuth } from "@/contexts/AuthContext";
+import { ProfileAvatar } from "../avatar/ProfileAvatar";
 
 const { Search } = Input;
 
@@ -44,16 +45,7 @@ export const MainHeader = () => {
             icon={<Image src={ICONS.BELL} alt="bell" width={18} height={18} />}
           />
 
-          {isAuthenticated ? (
-            <Avatar
-              size="default"
-              alt=""
-              src="https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              className="flex-shrink-0"
-            />
-          ) : (
-            <Button href={ROUTE_PATH.LOGIN}>Login</Button>
-          )}
+          {isAuthenticated ? <ProfileAvatar /> : <Button href={ROUTE_PATH.LOGIN}>Login</Button>}
         </section>
       </div>
     </header>
