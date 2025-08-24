@@ -5,4 +5,7 @@ import { PaginationParams } from "@/types/common.type";
 export const getPosts = (params?: PaginationParams) =>
   axiosApi.get<GetPostsResponse>("/posts", { params });
 
+export const getAdminPosts = (params?: PaginationParams) =>
+  axiosApi.get<GetPostsResponse>("/posts/admin/all", { params });
+
 export const createPost = (data: CreatePostData) => axiosApi.post("/posts", data);

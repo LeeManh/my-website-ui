@@ -6,6 +6,7 @@ import { CardSkeleton } from "./CardSkeleton";
 import { Pagination } from "antd";
 import { useState } from "react";
 import { PaginationParams } from "@/types/common.type";
+import { useScrollTop } from "@/hooks/useScrollTop";
 
 const ListPostSkeleton = () => {
   return (
@@ -18,13 +19,14 @@ const ListPostSkeleton = () => {
 };
 
 const ListPost = () => {
+  const scrollToTop = useScrollTop();
+
   const [params, setParams] = useState<PaginationParams>({
     page: 1,
     limit: 12,
   });
   const { data, isLoading } = useGetPosts({ params });
   if (isLoading) return <ListPostSkeleton />;
-
   const { total } = data?.meta || {};
 
   return (
@@ -41,7 +43,10 @@ const ListPost = () => {
         total={total}
         pageSize={params.limit}
         className="!mt-10"
-        onChange={(page) => setParams({ ...params, page })}
+        onChange={(page) => {
+          setParams({ ...params, page });
+          scrollToTop();
+        }}
       />
     </>
   );
