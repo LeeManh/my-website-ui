@@ -1,7 +1,13 @@
-import { PostStatus, PostVisibility, Reaction } from "@/constants/post.constant";
+import {
+  BookmarkTargetType,
+  LikeTargetType,
+  PostStatus,
+  PostVisibility,
+  Reaction,
+} from "@/constants/post.constant";
 import { Tag } from "./tag.type";
 import { Author } from "./user.type";
-import { SuccessPaginationResponse } from "./common.type";
+import { SuccessPaginationResponse, SuccessResponse } from "./common.type";
 
 export interface Post {
   id: string;
@@ -39,4 +45,17 @@ export interface CreatePostData {
   status: PostStatus;
   visibility: PostVisibility;
   scheduledAt?: string;
+}
+
+export type GetDetailPostResponse = SuccessResponse<Post>;
+
+export interface CreateLikeData {
+  targetId: string;
+  targetType: LikeTargetType;
+  isDislike?: boolean;
+}
+
+export interface CreateBookmarkData {
+  targetId: string;
+  targetType: BookmarkTargetType;
 }

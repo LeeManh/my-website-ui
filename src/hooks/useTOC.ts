@@ -13,7 +13,12 @@ interface UseTOCProps {
 
 export const useTOC = ({ content }: UseTOCProps) => {
   const tableOfContents: TableOfContent[] = useMemo(() => {
-    const headingRegex = /<(h[2-6])[^>]*>(.*?)<\/h[2-6]>/g;
+    if (!content || content.length === 0) {
+      return [];
+    }
+
+    const headingRegex = /<(h[1-6])[^>]*>(.*?)<\/h[1-6]>/g;
+
     const headings = [];
     let match;
 
@@ -38,13 +43,23 @@ export const useTOC = ({ content }: UseTOCProps) => {
 
   // Update content with IDs for anchor links
   const contentWithIds = useMemo(() => {
-    return content.replace(/<(h[2-6])([^>]*)>(.*?)<\/h[2-6]>/g, (match, tag, attrs, text) => {
-      const id = text
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
-      return `<${tag}${attrs} id="${id}">${text}</${tag}>`;
-    });
+    if (!content || content.length === 0) {
+      return "";
+    }
+
+    const result = content.replace(
+      /<(h[1-6])([^>]*)>(.*?)<\/h[1-6]>/g,
+      (match, tag, attrs, text) => {
+        const id = text
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "");
+
+        return `<${tag}${attrs} id="${id}">${text}</${tag}>`;
+      }
+    );
+
+    return result;
   }, [content]);
 
   return {

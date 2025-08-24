@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/shared/logo/Logo";
 import { ROUTE_PATH } from "@/constants/route-path.constant";
-import { Button, Input, Select } from "antd";
+import { Button, FloatButton, Input, Select } from "antd";
 import Image from "next/image";
 import { ICONS } from "@/constants/assets.constant";
 import { useAuth } from "@/contexts/AuthContext";
@@ -48,6 +48,8 @@ export const MainHeader = () => {
           {isAuthenticated ? <ProfileAvatar /> : <Button href={ROUTE_PATH.LOGIN}>Login</Button>}
         </section>
       </div>
+
+      <FloatButton.BackTop />
     </header>
   );
 };

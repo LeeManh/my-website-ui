@@ -13,3 +13,14 @@ export enum Reaction {
   LIKE = "like",
   DISLIKE = "dislike",
 }
+
+export enum LikeTargetType {
+  POST = 1,
+  SERIES = 2,
+  COMMENT = 3,
+}
+
+export enum BookmarkTargetType {
+  POST = 1,
+  SERIES = 2,
+}
