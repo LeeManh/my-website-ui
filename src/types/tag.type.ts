@@ -1,3 +1,5 @@
+import { SuccessPaginationResponse } from "./common.type";
+
 export interface Tag {
   id: string;
   name: string;
@@ -5,3 +7,5 @@ export interface Tag {
   createdAt: string;
   updatedAt: string;
 }
+
+export type GetTagsResponse = SuccessPaginationResponse<Tag[]>;

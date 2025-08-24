@@ -23,4 +23,5 @@ export interface SuccessPaginationResponse<T> {
 export interface PaginationParams {
   page: number;
   limit: number;
+  search?: string;
 }

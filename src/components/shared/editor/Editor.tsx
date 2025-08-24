@@ -37,11 +37,17 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import clsx from "clsx";
+import { ALLOWED_IMAGE_TYPES } from "@/constants/file.constant";
+import { CustomUpload } from "../upload/CustomUpload";
 
 const extensions = [
   TextStyleKit,
   StarterKit,
-  TiptapImage,
+  TiptapImage.configure({
+    HTMLAttributes: {
+      class: "tiptap-image",
+    },
+  }),
   TextAlign.configure({
     types: ["heading", "paragraph"],
   }),
@@ -56,7 +62,6 @@ interface ImageInsertModalProps {
 function ImageInsertModal({ visible, onCancel, onInsert }: ImageInsertModalProps) {
   const [imageUrl, setImageUrl] = useState("");
   const [imageAlt, setImageAlt] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [previewImage, setPreviewImage] = useState("");
   const [activeTab, setActiveTab] = useState("url");
 
@@ -91,7 +96,6 @@ function ImageInsertModal({ visible, onCancel, onInsert }: ImageInsertModalProps
   const handleClose = () => {
     setImageUrl("");
     setImageAlt("");
-    setFileList([]);
     setPreviewImage("");
     setActiveTab("url");
     onCancel();
@@ -126,7 +130,7 @@ function ImageInsertModal({ visible, onCancel, onInsert }: ImageInsertModalProps
                 <Image
                   src={imageUrl}
                   alt="Preview"
-                  className="max-w-full max-h-48 object-contain"
+                  className="max-w-full max-h-48 object-cover rounded"
                   onError={() => message.error("Invalid image URL")}
                   width={400}
                   height={300}
@@ -144,19 +148,25 @@ function ImageInsertModal({ visible, onCancel, onInsert }: ImageInsertModalProps
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">Select image</label>
-            <Upload.Dragger
-              beforeUpload={handleFileUpload}
-              fileList={fileList}
-              accept="image/*"
+
+            <CustomUpload
+              accept={ALLOWED_IMAGE_TYPES.join(",")}
               maxCount={1}
               showUploadList={false}
+              variant="thumbnail"
+              listType="picture-card"
+              onUploadSuccess={(url) => {
+                setPreviewImage(url);
+              }}
             >
-              <div className="p-6 text-center">
-                <UploadIcon className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p className="text-lg mb-2">Drag & drop or click to select image</p>
-                <p className="text-sm text-gray-500">Supports: JPG, PNG, GIF, WEBP</p>
+              <div className="p-6 h-[200px] flex flex-col items-center justify-center">
+                <UploadIcon className="size-8 mx-auto mb-4 text-gray-400" />
+                <p className="mb-2">Drag & drop or click to select image</p>
+                <p className="text-xs text-gray-500">
+                  Supports: {ALLOWED_IMAGE_TYPES.map((type) => type.toUpperCase()).join(", ")}
+                </p>
               </div>
-            </Upload.Dragger>
+            </CustomUpload>
           </div>
           <div>
             <label className="block text-sm font-medium mb-2">Alt text (optional)</label>
@@ -169,11 +179,11 @@ function ImageInsertModal({ visible, onCancel, onInsert }: ImageInsertModalProps
           {previewImage && (
             <div>
               <label className="block text-sm font-medium mb-2">Preview</label>
-              <div className="border rounded-lg p-2 flex items-center justify-center">
+              <div className="border border-gray-200 rounded-lg p-2 flex items-center justify-center">
                 <Image
                   src={previewImage}
                   alt="Preview"
-                  className="max-w-full max-h-48 object-contain"
+                  className="max-w-full max-h-48 object-cover rounded"
                   width={400}
                   height={300}
                 />

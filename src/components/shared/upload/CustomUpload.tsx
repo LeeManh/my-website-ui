@@ -38,7 +38,7 @@ export const CustomUpload = ({
     <div>
       <Upload
         beforeUpload={beforeUpload}
-        className={clsx(styles.upload, { [styles.thumbnail]: variant === "thumbnail" }, className)}
+        className={clsx(styles.upload, className)}
         customRequest={async (
           options: Parameters<NonNullable<UploadProps["customRequest"]>>[0]
         ) => {

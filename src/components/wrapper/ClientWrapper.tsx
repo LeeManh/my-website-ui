@@ -13,11 +13,6 @@ export const ClientWrapper = ({ children }: { children: React.ReactNode }) => {
         refetchOnWindowFocus: false,
         retry: 0,
       },
-      mutations: {
-        onError(error) {
-          messageApi.error(error.message || "Something went wrong!");
-        },
-      },
     },
   });
 

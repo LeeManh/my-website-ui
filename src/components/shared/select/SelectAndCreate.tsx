@@ -1,20 +1,19 @@
-import { Button, Divider, Input, InputRef, Select } from "antd";
+import { Button, Divider, Input, InputRef, Select, SelectProps } from "antd";
 import React, { useRef, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 
-interface SelectAndCreateProps {
-  items: string[];
-  setItems: (items: string[]) => void;
+export type OptionSelectAndCreate = { label: string; value?: string };
+
+interface SelectAndCreateProps extends SelectProps {
+  options: OptionSelectAndCreate[];
+  onChangeOptions: (items: OptionSelectAndCreate[]) => void;
   placeholder?: string;
   placeholderInMenu?: string;
 }
 
-export const SelectAndCreate = ({
-  items,
-  setItems,
-  placeholder,
-  placeholderInMenu,
-}: SelectAndCreateProps) => {
+export const SelectAndCreate = (props: SelectAndCreateProps) => {
+  const { onChangeOptions, placeholder, placeholderInMenu, options, ...rest } = props;
+
   const [name, setName] = useState("");
   const inputRef = useRef<InputRef>(null);
 
@@ -24,7 +23,7 @@ export const SelectAndCreate = ({
 
   const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
-    setItems([...items, name]);
+    onChangeOptions([{ label: name, value: name }, ...options]);
     setName("");
     setTimeout(() => {
       inputRef.current?.focus();
@@ -55,7 +54,9 @@ export const SelectAndCreate = ({
           </div>
         </>
       )}
-      options={items.map((item) => ({ label: item, value: item }))}
+      labelInValue
+      options={options}
+      {...rest}
     />
   );
 };

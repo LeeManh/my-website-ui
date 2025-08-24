@@ -51,7 +51,7 @@ export const ProfileAvatar = () => {
       },
       {
         key: ProfileMenu.CREATE_POST,
-        label: "Create Post",
+        label: <Link href={ROUTE_PATH.ADMIN.CREATE_POST}>Create Post</Link>,
         icon: <Plus className="w-4 h-4" />,
       },
       {

@@ -29,3 +29,14 @@ export interface Post {
 }
 
 export type GetPostsResponse = SuccessPaginationResponse<Post[]>;
+
+export interface CreatePostData {
+  title: string;
+  description: string;
+  thumbnail: string;
+  content: string;
+  tags: { id?: string; name: string }[];
+  status: PostStatus;
+  visibility: PostVisibility;
+  scheduledAt?: string;
+}
